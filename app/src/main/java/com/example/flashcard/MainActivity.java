@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 //        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-//            if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard) {
+//            if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard || destination.getId() == R.id.navigation_add) {
 //                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //                getSupportActionBar().setDisplayShowHomeEnabled(false);
 //            } else {

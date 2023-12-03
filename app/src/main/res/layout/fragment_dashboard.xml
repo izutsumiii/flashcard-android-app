@@ -5,12 +5,15 @@
     >
 
     <Button
+        android:id="@+id/createFolderButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
-        android:text="Create folder" />
+        android:text="Create folder"
+        android:onClick="createFolder"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDashboard"

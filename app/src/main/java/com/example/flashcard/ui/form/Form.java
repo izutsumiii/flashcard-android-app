@@ -16,11 +16,7 @@ import com.example.flashcard.db.DBHandler;
 
 
 public class Form extends Fragment {
-
-
     private DBHandler dbhandler;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

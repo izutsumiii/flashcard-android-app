@@ -9,8 +9,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "flashcard";
     private static final int DB_VERSION = 1;
-    private static final String TABLE_NAME = "words";
+
+    private static final String FOLDERS_TABLE_NAME = "folders";
+    private static final String WORDS_TABLE_NAME = "words";
     private static final String ID_COL = "id";
+    private static final String FOLDER_ID_COL = "folder_id";
+    private static final String FOLDER_NAME_COL = "folder_name";
     private static final String WORD_COL = "word";
     private static final String DESCRIPTION_COL = "description";
 
@@ -20,11 +24,33 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME + "(" +
+        createFoldersTable(db);
+        createWordsTable(db);
+    }
+
+    private void createFoldersTable(SQLiteDatabase db) {
+        String foldersQuery = "CREATE TABLE " + FOLDERS_TABLE_NAME + "(" +
+                FOLDER_ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                FOLDER_NAME_COL + " TEXT)";
+        db.execSQL(foldersQuery);
+    }
+
+    private void createWordsTable(SQLiteDatabase db) {
+        String wordsQuery = "CREATE TABLE " + WORDS_TABLE_NAME + "(" +
                 ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 WORD_COL + " TEXT," +
-                DESCRIPTION_COL + " TEXT)";
-        db.execSQL(query);
+                DESCRIPTION_COL + " TEXT," +
+                FOLDER_ID_COL + " INTEGER," +
+                "FOREIGN KEY(" + FOLDER_ID_COL + ") REFERENCES " + FOLDERS_TABLE_NAME + "(" + FOLDER_ID_COL + "))";
+        db.execSQL(wordsQuery);
+    }
+
+    public void addFolder(String folderName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(FOLDER_NAME_COL, folderName);
+        db.insert(FOLDERS_TABLE_NAME, null, cv);
+        db.close();
     }
 
     public void addWord(String word, String description) {
@@ -32,13 +58,13 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(WORD_COL, word);
         cv.put(DESCRIPTION_COL, description);
-        db.insert(TABLE_NAME, null, cv);
+        db.insert(WORDS_TABLE_NAME, null, cv);
         db.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + WORDS_TABLE_NAME);
         onCreate(db);
     }
 }
