@@ -6,21 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcard.R;
+import com.example.flashcard.db.DBHandler;
+import com.example.flashcard.modal.FolderModal;
 import com.example.flashcard.ui.card.CardAdapter;
-import com.example.flashcard.ui.card.CardItem;
 import com.example.flashcard.ui.form.FolderFormActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DashboardFragment extends Fragment {
+
+    private ArrayList<FolderModal> folderModalArrayList;
+    private DBHandler dbHandler;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -30,16 +32,16 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        List<CardItem> cardItemList = new ArrayList<>();
-        cardItemList.add(new CardItem("IELTS Vocabulary"));
-        cardItemList.add(new CardItem("Japanese Days"));
-        cardItemList.add(new CardItem("Numbers"));
+        folderModalArrayList = new ArrayList<>();
 
+        dbHandler = new DBHandler(requireContext());
+
+        folderModalArrayList = dbHandler.getFolderNames();
 
         RecyclerView recyclerViewDashboard = rootView.findViewById(R.id.recyclerViewDashboard);
         recyclerViewDashboard.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        CardAdapter cardAdapter = new CardAdapter(cardItemList);
+        CardAdapter cardAdapter = new CardAdapter(folderModalArrayList, requireContext());
         recyclerViewDashboard.setAdapter(cardAdapter);
 
         Button createFolderButton = rootView.findViewById(R.id.createFolderButton);

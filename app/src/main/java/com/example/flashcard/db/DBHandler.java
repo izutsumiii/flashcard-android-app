@@ -2,8 +2,14 @@ package com.example.flashcard.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.flashcard.modal.FolderModal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -51,6 +57,23 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(FOLDER_NAME_COL, folderName);
         db.insert(FOLDERS_TABLE_NAME, null, cv);
         db.close();
+    }
+
+    public ArrayList<FolderModal> getFolderNames() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(" SELECT * FROM " + FOLDERS_TABLE_NAME, null);
+
+        ArrayList<FolderModal> folderArrayList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                folderArrayList.add(new FolderModal(cursor.getString(1)));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return folderArrayList;
     }
 
     public void addWord(String word, String description) {

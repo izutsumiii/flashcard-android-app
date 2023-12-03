@@ -1,5 +1,6 @@
 package com.example.flashcard.ui.card;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +11,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcard.R;
+import com.example.flashcard.modal.FolderModal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    private List<CardItem> cardItemList;
+    private ArrayList<FolderModal> folderModalArrayList;
 
-    public CardAdapter(List<CardItem> cardItemList) {
-        this.cardItemList = cardItemList;
+    private Context context;
+
+    public CardAdapter(ArrayList<FolderModal> folderModalArrayList, Context context) {
+        this.folderModalArrayList = folderModalArrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -31,13 +37,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        CardItem cardItem = cardItemList.get(position);
-        holder.bind(cardItem);
+        FolderModal folderModal = folderModalArrayList.get(position);
+        holder.bind(folderModal);
     }
 
     @Override
     public int getItemCount() {
-        return cardItemList.size();
+        return folderModalArrayList.size();
     }
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
@@ -50,8 +56,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             textTitle = itemView.findViewById(R.id.textTitle);
         }
 
-        public void bind(CardItem cardItem) {
-            textTitle.setText(cardItem.getTitle());
+        public void bind(FolderModal folderModal) {
+            textTitle.setText(folderModal.getFolderName());
             setRandomBackgroundColor();
         }
 
