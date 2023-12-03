@@ -1,17 +1,22 @@
 package com.example.flashcard.ui.card;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcard.R;
 import com.example.flashcard.modal.FolderModal;
+import com.example.flashcard.ui.form.FolderFormActivity;
+import com.example.flashcard.ui.wordlist.WordList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +59,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             cardView = itemView.findViewById(R.id.cardView);
             textTitle = itemView.findViewById(R.id.textTitle);
+
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Context context = itemView.getContext();
+                    Intent intent = new Intent(context, WordList.class);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         public void bind(FolderModal folderModal) {
