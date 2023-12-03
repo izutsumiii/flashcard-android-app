@@ -17,9 +17,5 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
-    <fragment
-        android:id="@+id/navigation_add"
-        android:name="com.example.flashcard.ui.form.Form"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_form" />
+
 </navigation>

@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.flashcard.R;
 import com.example.flashcard.modal.WordModel;
+import com.example.flashcard.ui.form.FolderFormActivity;
+import com.example.flashcard.ui.form.WordFormActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +63,8 @@ public class WordList extends AppCompatActivity {
         findViewById(R.id.fabAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle add button click
+                Intent intent = new Intent(WordList.this, WordFormActivity.class);
+                startActivity(intent);
             }
         });
     }
