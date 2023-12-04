@@ -88,7 +88,6 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         private void saveFolderIdToSharedPreferences(Context context, int folderId) {
             SharedPreferences sharedPreferences = context.getSharedPreferences("FolderPreferences", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            Log.i("========>", "folderId : " + folderId);
             editor.putInt("currentFolderId", folderId);
             editor.apply();
         }

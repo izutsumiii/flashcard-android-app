@@ -1,19 +1,19 @@
 package com.example.flashcard.modal;
 
 public class FolderModal {
-    private int folder_id;
-    private String folder_name;
+    private int folderId;
+    private String folderName;
 
     public String getFolderName(){
-        return folder_name;
+        return folderName;
     }
 
     public int getFolderId(){
-        return folder_id;
+        return folderId;
     }
 
     public FolderModal(int folder_id, String folder_name){
-        this.folder_id = folder_id;
-        this.folder_name = folder_name;
+        this.folderId = folder_id;
+        this.folderName = folder_name;
     }
 }

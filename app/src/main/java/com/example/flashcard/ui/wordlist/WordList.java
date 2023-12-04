@@ -5,13 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.flashcard.R;
+import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.WordModel;
-import com.example.flashcard.ui.form.FolderFormActivity;
 import com.example.flashcard.ui.form.WordFormActivity;
 
 import java.util.ArrayList;
@@ -19,9 +20,10 @@ import java.util.List;
 
 public class WordList extends AppCompatActivity {
 
-    private List<WordModel> itemList;
+    private ArrayList<WordModel> wordModelArrayList;
     private RecyclerView recyclerView;
     private Button btnReview, btnEdit;
+    private DBHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +31,16 @@ public class WordList extends AppCompatActivity {
         setContentView(R.layout.activity_word_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.wordListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        itemList = new ArrayList<>();
-        itemList.add(new WordModel("Title 1", "Description 1"));
-        itemList.add(new WordModel("Title 2", "Description 2"));
-        itemList.add(new WordModel("Title 2", "Description 2"));
-        itemList.add(new WordModel("Title 2", "Description 2"));
-        itemList.add(new WordModel("Title 2", "Description 2"));
-        itemList.add(new WordModel("Title 2", "Description 2"));
+        wordModelArrayList = new ArrayList<>();
+        dbHandler = new DBHandler(this);
+        int folderId = getFolderIdFromSharedPreferences();
+        wordModelArrayList = dbHandler.getWordsByFolderId(folderId);
 
-        WordListAdapter itemAdapter = new WordListAdapter(itemList);
-        recyclerView.setAdapter(itemAdapter);
+        WordListAdapter wordListAdapter = new WordListAdapter(wordModelArrayList, this);
+        recyclerView.setAdapter(wordListAdapter);
 
         btnReview = findViewById(R.id.btnReview);
         btnEdit = findViewById(R.id.btnEdit);
@@ -67,5 +66,10 @@ public class WordList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private int getFolderIdFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FolderPreferences", MODE_PRIVATE);
+        return sharedPreferences.getInt("currentFolderId", -1);
     }
 }

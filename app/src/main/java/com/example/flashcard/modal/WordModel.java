@@ -1,19 +1,27 @@
 package com.example.flashcard.modal;
 
 public class WordModel {
-    private String title;
-    private String description;
 
-    public WordModel(String title, String description) {
-        this.title = title;
-        this.description = description;
+    private int folderId;
+    private int wordId;
+    private String word;
+    private String meaning;
+
+
+
+    public WordModel(int folderId, int wordId, String word, String meaning) {
+        this.folderId = folderId;
+        this.wordId = wordId;
+        this.word = word;
+        this.meaning = meaning;
     }
 
-    public String getTitle() {
-        return title;
+    public String getWord() {
+        return word;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMeaning() {
+        return meaning;
     }
+
 }

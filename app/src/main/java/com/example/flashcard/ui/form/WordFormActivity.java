@@ -33,9 +33,6 @@ public class WordFormActivity extends AppCompatActivity {
                 String description = descriptionEditText.getText().toString();
                 int folderId = getFolderIdFromSharedPreferences();
 
-                Toast.makeText(WordFormActivity.this, "Folder ID: " + folderId, Toast.LENGTH_SHORT).show();
-
-
                 if (word.isEmpty() || description.isEmpty()) {
                     Toast.makeText(WordFormActivity.this, "Please enter all values", Toast.LENGTH_SHORT).show();
                     return;

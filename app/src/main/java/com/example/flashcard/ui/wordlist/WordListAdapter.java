@@ -1,22 +1,25 @@
 package com.example.flashcard.ui.wordlist;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.flashcard.R; // Replace with the correct package name
+import com.example.flashcard.R;
 import com.example.flashcard.modal.WordModel;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ItemViewHolder> {
 
-    private List<WordModel> itemList;
+    private ArrayList<WordModel> wordModelArrayList;
+    private Context context;
 
-    public WordListAdapter(List<WordModel> itemList) {
-        this.itemList = itemList;
+    public WordListAdapter(ArrayList<WordModel> wordModelArrayList, Context context) {
+        this.wordModelArrayList = wordModelArrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -28,13 +31,13 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ItemVi
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        WordModel item = itemList.get(position);
+        WordModel item = wordModelArrayList.get(position);
         holder.bind(item);
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return wordModelArrayList.size();
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +49,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ItemVi
         }
 
         public void bind(WordModel item) {
-            textTitle.setText(item.getTitle());
+            textTitle.setText(item.getWord());
         }
     }
 }

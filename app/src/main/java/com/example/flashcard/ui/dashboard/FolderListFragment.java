@@ -32,9 +32,7 @@ public class FolderListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         folderModalArrayList = new ArrayList<>();
-
         dbHandler = new DBHandler(requireContext());
-
         folderModalArrayList = dbHandler.getFolderNames();
 
         RecyclerView recyclerViewDashboard = rootView.findViewById(R.id.recyclerViewDashboard);

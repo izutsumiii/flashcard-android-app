@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.flashcard.modal.FolderModal;
+import com.example.flashcard.modal.WordModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,30 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
 
         return folderArrayList;
+    }
+
+    public ArrayList<WordModel> getWordsByFolderId(int folderId) {
+        ArrayList<WordModel> wordList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] projection = {ID_COL, WORD_COL, DESCRIPTION_COL};
+        String selection = FOLDER_ID_COL + " = ?";
+        String[] selectionArgs = {String.valueOf(folderId)};
+
+        Cursor cursor = db.query(WORDS_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int wordId = cursor.getInt(cursor.getColumnIndexOrThrow(ID_COL));
+                String word = cursor.getString(cursor.getColumnIndexOrThrow(WORD_COL));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow(DESCRIPTION_COL));
+                wordList.add(new WordModel(folderId, wordId, word, description));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return wordList;
     }
 
     public void addWord(int folderId, String word, String description) {
