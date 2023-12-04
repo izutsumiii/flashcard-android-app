@@ -39,6 +39,15 @@ public class WordList extends AppCompatActivity {
         int folderId = getFolderIdFromSharedPreferences();
         wordModelArrayList = dbHandler.getWordsByFolderId(folderId);
 
+        if (wordModelArrayList.isEmpty()) {
+            findViewById(R.id.btnReview).setVisibility(View.GONE);
+            findViewById(R.id.emptyListMessage).setVisibility(View.VISIBLE);
+        }
+        else{
+            findViewById(R.id.btnReview).setVisibility(View.VISIBLE);
+            findViewById(R.id.emptyListMessage).setVisibility(View.GONE);
+        }
+
         WordListAdapter wordListAdapter = new WordListAdapter(wordModelArrayList, this);
         recyclerView.setAdapter(wordListAdapter);
 
