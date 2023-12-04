@@ -14,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.FolderModal;
-import com.example.flashcard.ui.card.CardAdapter;
 import com.example.flashcard.ui.form.FolderFormActivity;
 
 import java.util.ArrayList;
 
-public class DashboardFragment extends Fragment {
+public class FolderListFragment extends Fragment {
 
     private ArrayList<FolderModal> folderModalArrayList;
     private DBHandler dbHandler;
@@ -41,7 +40,7 @@ public class DashboardFragment extends Fragment {
         RecyclerView recyclerViewDashboard = rootView.findViewById(R.id.recyclerViewDashboard);
         recyclerViewDashboard.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        CardAdapter cardAdapter = new CardAdapter(folderModalArrayList, requireContext());
+        FolderListAdapter cardAdapter = new FolderListAdapter(folderModalArrayList, requireContext());
         recyclerViewDashboard.setAdapter(cardAdapter);
 
         Button createFolderButton = rootView.findViewById(R.id.createFolderButton);

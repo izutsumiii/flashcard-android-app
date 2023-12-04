@@ -1,4 +1,4 @@
-package com.example.flashcard.ui.card;
+package com.example.flashcard.ui.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -15,20 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcard.R;
 import com.example.flashcard.modal.FolderModal;
-import com.example.flashcard.ui.form.FolderFormActivity;
 import com.example.flashcard.ui.wordlist.WordList;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.CardViewHolder> {
 
     private ArrayList<FolderModal> folderModalArrayList;
 
     private Context context;
 
-    public CardAdapter(ArrayList<FolderModal> folderModalArrayList, Context context) {
+    public FolderListAdapter(ArrayList<FolderModal> folderModalArrayList, Context context) {
         this.folderModalArrayList = folderModalArrayList;
         this.context = context;
     }
