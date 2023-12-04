@@ -1,5 +1,6 @@
 package com.example.flashcard.ui.form;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,17 +31,26 @@ public class WordFormActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String word = wordEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
+                int folderId = getFolderIdFromSharedPreferences();
+
+                Toast.makeText(WordFormActivity.this, "Folder ID: " + folderId, Toast.LENGTH_SHORT).show();
+
 
                 if (word.isEmpty() || description.isEmpty()) {
                     Toast.makeText(WordFormActivity.this, "Please enter all values", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                dbhandler.addWord(word, description);
+                dbhandler.addWord(folderId, word, description);
                 Toast.makeText(WordFormActivity.this, "Word has been added", Toast.LENGTH_SHORT).show();
                 wordEditText.setText("");
                 descriptionEditText.setText("");
             }
         });
+    }
+
+    private int getFolderIdFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FolderPreferences", MODE_PRIVATE);
+        return sharedPreferences.getInt("currentFolderId", -1);
     }
 }

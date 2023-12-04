@@ -8,7 +8,12 @@ public class FolderModal {
         return folder_name;
     }
 
-    public FolderModal(String folder_name){
+    public int getFolderId(){
+        return folder_id;
+    }
+
+    public FolderModal(int folder_id, String folder_name){
+        this.folder_id = folder_id;
         this.folder_name = folder_name;
     }
 }

@@ -66,7 +66,9 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<FolderModal> folderArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
-                folderArrayList.add(new FolderModal(cursor.getString(1)));
+                int folderId = cursor.getInt(cursor.getColumnIndexOrThrow(FOLDER_ID_COL));
+                String folderName = cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_NAME_COL));
+                folderArrayList.add(new FolderModal(folderId, folderName));
             } while (cursor.moveToNext());
         }
 
@@ -76,9 +78,10 @@ public class DBHandler extends SQLiteOpenHelper {
         return folderArrayList;
     }
 
-    public void addWord(String word, String description) {
+    public void addWord(int folderId, String word, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(FOLDER_ID_COL, folderId);
         cv.put(WORD_COL, word);
         cv.put(DESCRIPTION_COL, description);
         db.insert(WORDS_TABLE_NAME, null, cv);

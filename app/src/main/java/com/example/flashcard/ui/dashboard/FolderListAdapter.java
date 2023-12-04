@@ -2,7 +2,9 @@ package com.example.flashcard.ui.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,8 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView textTitle;
+        int folderId;
+        Context context;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +65,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
                 @Override
                 public void onClick(View view) {
                     Context context = itemView.getContext();
+                    saveFolderIdToSharedPreferences(context, folderId);
                     Intent intent = new Intent(context, WordList.class);
                     context.startActivity(intent);
                 }
@@ -69,6 +74,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
 
         public void bind(FolderModal folderModal) {
             textTitle.setText(folderModal.getFolderName());
+            folderId = folderModal.getFolderId();
             setRandomBackgroundColor();
         }
 
@@ -77,6 +83,14 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
             int randomColor = typedArray.getColor(new Random().nextInt(typedArray.length()), 0);
             typedArray.recycle();
             cardView.setCardBackgroundColor(randomColor);
+        }
+
+        private void saveFolderIdToSharedPreferences(Context context, int folderId) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("FolderPreferences", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Log.i("========>", "folderId : " + folderId);
+            editor.putInt("currentFolderId", folderId);
+            editor.apply();
         }
     }
 }
