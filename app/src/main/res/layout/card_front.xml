@@ -14,10 +14,10 @@
 
     <TextView
         style="@style/Base.TextAppearance.AppCompat.Display1"
+        android:id="@+id/card_text_front"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="front"
         android:textColor="@color/white" />
 
 </FrameLayout>
