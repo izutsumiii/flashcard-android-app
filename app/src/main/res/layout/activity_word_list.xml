@@ -16,16 +16,9 @@
         <Button
             android:id="@+id/btnReview"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Review" />
-
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Edit" />
 
     </LinearLayout>
 
@@ -35,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/topButtonsLayout"
         android:layout_marginTop="16dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
@@ -45,8 +38,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:srcCompat="@drawable/icons8_plus_60"
         android:backgroundTint="@color/purple_500"
-        android:contentDescription="Add button"/>
+        android:contentDescription="Add button"
+        app:srcCompat="@drawable/icons8_plus_60" />
 
 </RelativeLayout>

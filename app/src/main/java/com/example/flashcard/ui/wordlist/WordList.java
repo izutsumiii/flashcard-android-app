@@ -13,16 +13,16 @@ import android.widget.Button;
 import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.WordModel;
+import com.example.flashcard.ui.card.CardFlip;
 import com.example.flashcard.ui.form.WordFormActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class WordList extends AppCompatActivity {
 
     private ArrayList<WordModel> wordModelArrayList;
     private RecyclerView recyclerView;
-    private Button btnReview, btnEdit;
+    private Button btnReview;
     private DBHandler dbHandler;
 
     @Override
@@ -43,19 +43,12 @@ public class WordList extends AppCompatActivity {
         recyclerView.setAdapter(wordListAdapter);
 
         btnReview = findViewById(R.id.btnReview);
-        btnEdit = findViewById(R.id.btnEdit);
 
         btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Handle Review button click
-            }
-        });
-
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Handle Edit button click
+                Intent intent = new Intent(WordList.this, CardFlip.class);
+                startActivity(intent);
             }
         });
 
