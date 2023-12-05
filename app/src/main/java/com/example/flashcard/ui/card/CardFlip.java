@@ -26,6 +26,7 @@ public class CardFlip extends AppCompatActivity {
     private View mCardBackLayout;
     private int currentWordIndex;
     private ArrayList<WordModel> wordModelArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +99,15 @@ public class CardFlip extends AppCompatActivity {
         TextView cardTextBack = findViewById(R.id.card_text_back);
         cardTextFront.setText(wordModelArrayList.get(currentWordIndex).getWord());
         cardTextBack.setText(wordModelArrayList.get(currentWordIndex).getMeaning());
+        showWordIndex();
+    }
+
+    private void showWordIndex() {
+        TextView wordIndex = findViewById(R.id.wordIndex);
+        int currentIndex = currentWordIndex + 1;
+        int totalWords = wordModelArrayList.size();
+        String indexText = getString(R.string.index_format, currentIndex, totalWords);
+        wordIndex.setText(indexText);
     }
 
     private int getFolderIdFromSharedPreferences() {
