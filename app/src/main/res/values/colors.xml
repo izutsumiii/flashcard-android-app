@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="correct">#1BD171</color>
+    <color name="incorrect">#EB4B4D</color>
     <array name="android_colors">
         <item>#FED766</item>
         <item>#C6EBBE</item>
