@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/createFolderButton"
@@ -11,15 +10,12 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
-        android:text="Create folder"
         android:onClick="createFolder"
-        />
+        android:text="Create folder" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewDashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        />
-
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

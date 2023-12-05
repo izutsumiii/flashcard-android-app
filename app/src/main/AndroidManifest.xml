@@ -15,17 +15,21 @@
         android:theme="@style/Theme.Flashcard"
         tools:targetApi="31">
         <activity
+            android:name=".ui.folders.FolderListActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".ui.card.CardFlip"
             android:exported="false"
             android:parentActivityName=".ui.wordlist.WordList" />
         <activity
             android:name=".ui.wordlist.WordList"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ui.folders.FolderListActivity" />
         <activity
             android:name=".ui.form.FolderFormActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ui.folders.FolderListActivity" />
         <activity
             android:name=".ui.form.WordFormActivity"
             android:exported="false"
