@@ -113,6 +113,22 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public int getTotalWordsInAFolder(int folderId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int totalWords = 0;
+        String[] projection = {ID_COL};
+        String selection = FOLDER_ID_COL + " = ?";
+        String[] selectionArgs = {String.valueOf(folderId)};
+
+        Cursor cursor = db.query(WORDS_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        if (cursor != null) {
+            totalWords = cursor.getCount();
+            cursor.close();
+        }
+        db.close();
+        return totalWords;
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + WORDS_TABLE_NAME);

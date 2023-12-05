@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flashcard.R;
+import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.FolderModal;
 import com.example.flashcard.ui.wordlist.WordList;
 
@@ -76,6 +77,14 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
             textTitle.setText(folderModal.getFolderName());
             folderId = folderModal.getFolderId();
             setRandomBackgroundColor();
+            int wordCount = getWordCountInAFolder(folderId);
+            TextView textWordCount = itemView.findViewById(R.id.totalWords);
+            textWordCount.setText(String.valueOf(wordCount) + " words");
+        }
+
+        private int getWordCountInAFolder(int folderId) {
+            DBHandler dbHandler = new DBHandler(itemView.getContext());
+            return dbHandler.getTotalWordsInAFolder(folderId);
         }
 
         private void setRandomBackgroundColor() {
