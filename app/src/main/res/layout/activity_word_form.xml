@@ -10,16 +10,25 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="4sp"
-        android:text="New word"
+        android:text="Add a new word"
         android:textSize="28sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/subtitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/titleTextView"
+        android:text="Write a word and its description to remember it later"
+        android:textSize="15sp" />
 
     <EditText
         android:id="@+id/wordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTextView"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/edit_text_border_rounded"
         android:hint="Enter word" />
 

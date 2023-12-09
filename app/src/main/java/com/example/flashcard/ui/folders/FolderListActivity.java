@@ -30,7 +30,7 @@ public class FolderListActivity extends AppCompatActivity {
         dbHandler = new DBHandler(this);
         folderModalArrayList = dbHandler.getFolderNames();
 
-        RecyclerView recyclerViewDashboard = findViewById(R.id.recyclerViewDashboard);
+        RecyclerView recyclerViewDashboard = findViewById(R.id.foldersListRecyclerView);
         recyclerViewDashboard.setLayoutManager(new LinearLayoutManager(this));
 
         FolderListAdapter cardAdapter = new FolderListAdapter(folderModalArrayList, this);

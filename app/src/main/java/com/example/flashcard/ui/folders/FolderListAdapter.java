@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +38,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_item_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_folder_card, parent, false);
         return new CardViewHolder(view);
     }
 
@@ -49,18 +52,22 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
     public int getItemCount() {
         return folderModalArrayList.size();
     }
+
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView textTitle;
         int folderId;
         Context context;
 
+        public static final int MENU_EDIT = R.id.menu_edit;
+        public static final int MENU_DELETE = R.id.menu_delete;
+
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.cardView);
             textTitle = itemView.findViewById(R.id.textTitle);
-
+            ImageView menuIcon = itemView.findViewById(R.id.menuIcon);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -68,6 +75,13 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
                     saveFolderIdToSharedPreferences(context, folderId);
                     Intent intent = new Intent(context, WordList.class);
                     context.startActivity(intent);
+                }
+            });
+
+            menuIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showContextMenu(view);
                 }
             });
         }
@@ -84,6 +98,39 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         private int getWordCountInAFolder(int folderId) {
             DBHandler dbHandler = new DBHandler(itemView.getContext());
             return dbHandler.getTotalWordsInAFolder(folderId);
+        }
+
+        public void showContextMenu(View view) {
+            PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+            popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    int itemId = item.getItemId();
+
+                    if (itemId == R.id.menu_edit) {
+                        editFolder();
+                        return true;
+                    } else if (itemId == R.id.menu_delete) {
+                        deleteFolder();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            popupMenu.show();
+        }
+
+        private void editFolder() {
+            // Implement edit functionality here
+            // You can launch the FolderFormActivity with extra information about the folder to edit
+        }
+
+        private void deleteFolder() {
+            // Implement delete functionality here
+            // You can prompt the user for confirmation before deleting
         }
 
         private void setRandomBackgroundColor() {

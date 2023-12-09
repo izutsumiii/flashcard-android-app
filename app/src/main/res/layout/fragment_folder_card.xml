@@ -29,6 +29,14 @@
             android:layout_marginTop="8dp"
             android:text="Total Words"
             android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_more_vert_24"
+            android:layout_gravity="end"
+            android:onClick="showContextMenu"/>
     </LinearLayout>
 
 
