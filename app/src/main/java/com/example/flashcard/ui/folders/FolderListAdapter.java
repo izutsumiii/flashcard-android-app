@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.FolderModal;
+import com.example.flashcard.ui.form.FolderFormActivity;
+import com.example.flashcard.ui.form.WordFormActivity;
 import com.example.flashcard.ui.wordlist.WordList;
 
 import java.util.ArrayList;
@@ -124,8 +127,12 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         }
 
         private void editFolder() {
-            // Implement edit functionality here
-            // You can launch the FolderFormActivity with extra information about the folder to edit
+            Context context = itemView.getContext();
+            String folderName = textTitle.getText().toString();
+            Intent intent = new Intent(context, FolderFormActivity.class);
+            intent.putExtra("folderId", folderId);
+            intent.putExtra("folderName", folderName);
+            context.startActivity(intent);
         }
 
         private void deleteFolder() {

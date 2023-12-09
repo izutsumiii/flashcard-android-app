@@ -129,6 +129,14 @@ public class DBHandler extends SQLiteOpenHelper {
         return totalWords;
     }
 
+    public void updateFolderName(int folderId, String newFolderName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(FOLDER_NAME_COL, newFolderName);
+        db.update(FOLDERS_TABLE_NAME, values, FOLDER_ID_COL + " = ?", new String[]{String.valueOf(folderId)});
+        db.close();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + WORDS_TABLE_NAME);
