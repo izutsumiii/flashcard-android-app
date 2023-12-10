@@ -90,7 +90,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
                 @Override
                 public void onClick(View view) {
                     Context context = itemView.getContext();
-                    saveFolderIdToSharedPreferences(context, folderId);
+                    saveFolderIdToSharedPreferences(context, folderId, textTitle.getText().toString());
                     Intent intent = new Intent(context, WordList.class);
                     context.startActivity(intent);
                 }
@@ -178,10 +178,11 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
 //            cardView.setCardBackgroundColor(randomColor);
 //        }
 
-        private void saveFolderIdToSharedPreferences(Context context, int folderId) {
+        private void saveFolderIdToSharedPreferences(Context context, int folderId, String folderName) {
             SharedPreferences sharedPreferences = context.getSharedPreferences("FolderPreferences", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putInt("currentFolderId", folderId);
+            editor.putString("currentFolderName", folderName);
             editor.apply();
         }
     }

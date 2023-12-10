@@ -8,4 +8,9 @@
     <string name="right_chevron"><![CDATA[>]]></string>
     <string name="left_chevron"><![CDATA[<]]></string>
     <string name="index_format">%d/%d</string>
+    <string name="correct_count_format">Correct: %d</string>
+    <string name="incorrect_count_format">Incorrect: %d</string>
+    <string name="folder_preferences">FolderPreferences</string>
+    <string name="current_folder_name">currentFolderName</string>
+    <string name="current_folder_id">currentFolderId</string>
 </resources>

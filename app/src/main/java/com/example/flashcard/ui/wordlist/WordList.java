@@ -30,6 +30,7 @@ public class WordList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getFolderNameFromSharedPreferences());
 
         recyclerView = findViewById(R.id.wordListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -71,7 +72,12 @@ public class WordList extends AppCompatActivity {
     }
 
     private int getFolderIdFromSharedPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("FolderPreferences", MODE_PRIVATE);
-        return sharedPreferences.getInt("currentFolderId", -1);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.folder_preferences), MODE_PRIVATE);
+        return sharedPreferences.getInt(getString(R.string.current_folder_id), -1);
+    }
+
+    private String getFolderNameFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.folder_preferences), MODE_PRIVATE);
+        return sharedPreferences.getString(getString(R.string.current_folder_name), "Words");
     }
 }

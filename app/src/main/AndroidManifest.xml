@@ -15,6 +15,10 @@
         android:theme="@style/Theme.Flashcard"
         tools:targetApi="31">
         <activity
+            android:name=".ui.score.ScoreActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.wordlist.WordList" />
+        <activity
             android:name=".ui.folders.FolderListActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />

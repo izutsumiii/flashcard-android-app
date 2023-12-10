@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.WordModel;
+import com.example.flashcard.ui.form.WordFormActivity;
+import com.example.flashcard.ui.score.ScoreActivity;
 import com.example.flashcard.ui.wordlist.WordList;
 
 import java.util.ArrayList;
@@ -27,29 +30,36 @@ public class CardFlip extends AppCompatActivity {
     private int currentWordIndex;
     private ArrayList<WordModel> wordModelArrayList;
 
+    private int correctCount = 0;
+    private int incorrectCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_flip);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getFolderNameFromSharedPreferences());
+
         findViews();
         loadAnimations();
         changeCameraDistance();
         loadWords();
         showWord();
 
-        Button btnPrevious = findViewById(R.id.btnPrevious);
-        Button btnNext = findViewById(R.id.btnNext);
-        btnPrevious.setOnClickListener(new View.OnClickListener() {
+        Button btnCorrect = findViewById(R.id.btnCorrect);
+        Button btnIncorrect = findViewById(R.id.btnIncorrect);
+        btnIncorrect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPreviousWord();
+                incorrectCount++;
+                showNextWordOrScore();
             }
         });
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnCorrect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showNextWord();
+                correctCount++;
+                showNextWordOrScore();
             }
         });
     }
@@ -87,6 +97,17 @@ public class CardFlip extends AppCompatActivity {
         }
     }
 
+    public void checkIfFlippedCard(){
+        Toast.makeText(CardFlip.this, String.valueOf(!mIsBackVisible), Toast.LENGTH_SHORT).show();
+        if (mIsBackVisible) {
+            mSetRightOut.setTarget(mCardBackLayout);
+            mSetLeftIn.setTarget(mCardFrontLayout);
+            mSetRightOut.start();
+            mSetLeftIn.start();
+            mIsBackVisible = false;
+        }
+    }
+
     private void loadWords() {
         DBHandler dbHandler = new DBHandler(this);
         int folderId = getFolderIdFromSharedPreferences();
@@ -111,8 +132,13 @@ public class CardFlip extends AppCompatActivity {
     }
 
     private int getFolderIdFromSharedPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("FolderPreferences", MODE_PRIVATE);
-        return sharedPreferences.getInt("currentFolderId", -1);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.folder_preferences), MODE_PRIVATE);
+        return sharedPreferences.getInt(getString(R.string.current_folder_id), -1);
+    }
+
+    private String getFolderNameFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.folder_preferences), MODE_PRIVATE);
+        return sharedPreferences.getString(getString(R.string.current_folder_name), "Words");
     }
 
     private void showPreviousWord() {
@@ -122,10 +148,21 @@ public class CardFlip extends AppCompatActivity {
         }
     }
 
-    private void showNextWord() {
+    private void showNextWordOrScore() {
         if (currentWordIndex < wordModelArrayList.size() - 1) {
             currentWordIndex++;
+            checkIfFlippedCard();
             showWord();
+        } else {
+            showScores();
         }
+    }
+
+    private void showScores() {
+        Intent intent = new Intent(this, ScoreActivity.class);
+        intent.putExtra("correctCount", correctCount);
+        intent.putExtra("incorrectCount", incorrectCount);
+        startActivity(intent);
+        finish();
     }
 }
