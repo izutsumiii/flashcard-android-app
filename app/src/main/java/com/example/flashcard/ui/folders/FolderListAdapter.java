@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -23,11 +21,9 @@ import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
 import com.example.flashcard.modal.FolderModal;
 import com.example.flashcard.ui.form.FolderFormActivity;
-import com.example.flashcard.ui.form.WordFormActivity;
 import com.example.flashcard.ui.wordlist.WordList;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.CardViewHolder> {
 
@@ -35,16 +31,26 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
 
     private Context context;
 
-    public FolderListAdapter(ArrayList<FolderModal> folderModalArrayList, Context context) {
+    private RecyclerView recyclerView;
+
+    public interface OnFolderDeletedListener {
+        void onFolderDeleted(ArrayList<FolderModal> updatedData);
+    }
+
+    private OnFolderDeletedListener folderDeletedListener;
+
+
+    public FolderListAdapter(ArrayList<FolderModal> folderModalArrayList, Context context, OnFolderDeletedListener listener) {
         this.folderModalArrayList = folderModalArrayList;
         this.context = context;
+        this.folderDeletedListener = listener;
     }
 
     @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_folder_card, parent, false);
-        return new CardViewHolder(view);
+        return new CardViewHolder(view, recyclerView, folderDeletedListener);
     }
 
     @Override
@@ -68,11 +74,14 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         TextView textTitle;
         int folderId;
         Context context;
+        OnFolderDeletedListener folderDeletedListener;
         private RecyclerView recyclerView;
 
-        public CardViewHolder(@NonNull View itemView) {
+
+        public CardViewHolder(@NonNull View itemView, RecyclerView recyclerView, OnFolderDeletedListener folderDeletedListener) {
             super(itemView);
             this.recyclerView = recyclerView;
+            this.folderDeletedListener = folderDeletedListener;
 
             cardView = itemView.findViewById(R.id.cardView);
             textTitle = itemView.findViewById(R.id.textTitle);
@@ -152,13 +161,14 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
                     DBHandler dbHandler = new DBHandler(itemView.getContext());
                     dbHandler.deleteFolder(folderId);
                     ArrayList<FolderModal> updatedData = dbHandler.getFolderNames();
-                    ((FolderListAdapter) recyclerView.getAdapter()).updateData(updatedData);
+                    if (folderDeletedListener != null) {
+                        folderDeletedListener.onFolderDeleted(updatedData);
+                    }
                 }
             });
             builder.setNegativeButton("No", null);
             builder.show();
         }
-
 
 
 //        private void setRandomBackgroundColor() {

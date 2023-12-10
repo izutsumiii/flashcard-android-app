@@ -16,9 +16,10 @@ import com.example.flashcard.ui.form.FolderFormActivity;
 
 import java.util.ArrayList;
 
-public class FolderListActivity extends AppCompatActivity {
+public class FolderListActivity extends AppCompatActivity implements FolderListAdapter.OnFolderDeletedListener {
     private ArrayList<FolderModal> folderModalArrayList;
     private DBHandler dbHandler;
+    private FolderListAdapter cardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class FolderListActivity extends AppCompatActivity {
         RecyclerView recyclerViewDashboard = findViewById(R.id.foldersListRecyclerView);
         recyclerViewDashboard.setLayoutManager(new LinearLayoutManager(this));
 
-        FolderListAdapter cardAdapter = new FolderListAdapter(folderModalArrayList, this);
+        cardAdapter = new FolderListAdapter(folderModalArrayList, this, this);
         recyclerViewDashboard.setAdapter(cardAdapter);
 
         Button createFolderButton = findViewById(R.id.createFolderButton);
@@ -48,5 +49,10 @@ public class FolderListActivity extends AppCompatActivity {
     public void createFolder() {
         Intent intent = new Intent(this, FolderFormActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFolderDeleted(ArrayList<FolderModal> updatedData) {
+        cardAdapter.updateData(updatedData);
     }
 }
