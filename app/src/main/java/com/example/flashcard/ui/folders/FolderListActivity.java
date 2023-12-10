@@ -31,6 +31,13 @@ public class FolderListActivity extends AppCompatActivity implements FolderListA
         dbHandler = new DBHandler(this);
         folderModalArrayList = dbHandler.getFolderNames();
 
+        if (folderModalArrayList.isEmpty()) {
+            findViewById(R.id.emptyFolderListMessage).setVisibility(View.VISIBLE);
+        }
+        else{
+            findViewById(R.id.emptyFolderListMessage).setVisibility(View.GONE);
+        }
+
         RecyclerView recyclerViewDashboard = findViewById(R.id.foldersListRecyclerView);
         recyclerViewDashboard.setLayoutManager(new LinearLayoutManager(this));
 

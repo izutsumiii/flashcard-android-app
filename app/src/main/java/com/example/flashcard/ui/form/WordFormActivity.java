@@ -19,6 +19,8 @@ public class WordFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_form);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(getFolderNameFromSharedPreferences());
 
         dbhandler = new DBHandler(this);
 
@@ -49,5 +51,10 @@ public class WordFormActivity extends AppCompatActivity {
     private int getFolderIdFromSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("FolderPreferences", MODE_PRIVATE);
         return sharedPreferences.getInt("currentFolderId", -1);
+    }
+
+    private String getFolderNameFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.folder_preferences), MODE_PRIVATE);
+        return sharedPreferences.getString(getString(R.string.current_folder_name), "Words");
     }
 }

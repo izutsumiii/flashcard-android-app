@@ -98,7 +98,6 @@ public class CardFlip extends AppCompatActivity {
     }
 
     public void checkIfFlippedCard(){
-        Toast.makeText(CardFlip.this, String.valueOf(!mIsBackVisible), Toast.LENGTH_SHORT).show();
         if (mIsBackVisible) {
             mSetRightOut.setTarget(mCardBackLayout);
             mSetLeftIn.setTarget(mCardFrontLayout);
