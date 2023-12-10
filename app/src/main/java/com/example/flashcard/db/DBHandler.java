@@ -137,6 +137,16 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteFolder(int folderId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteWordsInFolder(db, folderId);
+        db.delete(FOLDERS_TABLE_NAME, FOLDER_ID_COL + "=?", new String[]{String.valueOf(folderId)});
+        db.close();
+    }
+    private void deleteWordsInFolder(SQLiteDatabase db, int folderId) {
+        db.delete(WORDS_TABLE_NAME, FOLDER_ID_COL + "=?", new String[]{String.valueOf(folderId)});
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + WORDS_TABLE_NAME);

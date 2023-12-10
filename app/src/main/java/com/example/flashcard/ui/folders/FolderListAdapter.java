@@ -1,6 +1,8 @@
 package com.example.flashcard.ui.folders;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -56,17 +58,21 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         return folderModalArrayList.size();
     }
 
+    public void updateData(ArrayList<FolderModal> newData) {
+        folderModalArrayList = newData;
+        notifyDataSetChanged();
+    }
+
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView textTitle;
         int folderId;
         Context context;
-
-        public static final int MENU_EDIT = R.id.menu_edit;
-        public static final int MENU_DELETE = R.id.menu_delete;
+        private RecyclerView recyclerView;
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.recyclerView = recyclerView;
 
             cardView = itemView.findViewById(R.id.cardView);
             textTitle = itemView.findViewById(R.id.textTitle);
@@ -92,7 +98,7 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         public void bind(FolderModal folderModal) {
             textTitle.setText(folderModal.getFolderName());
             folderId = folderModal.getFolderId();
-            setRandomBackgroundColor();
+//            setRandomBackgroundColor();
             int wordCount = getWordCountInAFolder(folderId);
             TextView textWordCount = itemView.findViewById(R.id.totalWords);
             textWordCount.setText(String.valueOf(wordCount) + " words");
@@ -136,16 +142,31 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
         }
 
         private void deleteFolder() {
-            // Implement delete functionality here
-            // You can prompt the user for confirmation before deleting
+            Context context = itemView.getContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Confirm Delete");
+            builder.setMessage("Are you sure you want to delete this folder?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    DBHandler dbHandler = new DBHandler(itemView.getContext());
+                    dbHandler.deleteFolder(folderId);
+                    ArrayList<FolderModal> updatedData = dbHandler.getFolderNames();
+                    ((FolderListAdapter) recyclerView.getAdapter()).updateData(updatedData);
+                }
+            });
+            builder.setNegativeButton("No", null);
+            builder.show();
         }
 
-        private void setRandomBackgroundColor() {
-            TypedArray typedArray = itemView.getResources().obtainTypedArray(R.array.android_colors);
-            int randomColor = typedArray.getColor(new Random().nextInt(typedArray.length()), 0);
-            typedArray.recycle();
-            cardView.setCardBackgroundColor(randomColor);
-        }
+
+
+//        private void setRandomBackgroundColor() {
+//            TypedArray typedArray = itemView.getResources().obtainTypedArray(R.array.android_colors);
+//            int randomColor = typedArray.getColor(new Random().nextInt(typedArray.length()), 0);
+//            typedArray.recycle();
+//            cardView.setCardBackgroundColor(randomColor);
+//        }
 
         private void saveFolderIdToSharedPreferences(Context context, int folderId) {
             SharedPreferences sharedPreferences = context.getSharedPreferences("FolderPreferences", Context.MODE_PRIVATE);
