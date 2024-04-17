@@ -1,3 +1,5 @@
+Watch the tutorial on [https://youtu.be/qfrDxTbNbEs](https://youtu.be/qfrDxTbNbEs)
+
 ![5](https://github.com/shrestharosy/Flashcard/assets/30471808/7173212c-0756-48b7-ae18-3115cc460ee3)
 ![6](https://github.com/shrestharosy/Flashcard/assets/30471808/9366dc44-e1cf-46d3-bd90-fd6b50777da0)
 ![7](https://github.com/shrestharosy/Flashcard/assets/30471808/067b3f84-a9aa-4863-ad65-c779a2896229)
