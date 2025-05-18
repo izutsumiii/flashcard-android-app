@@ -170,19 +170,12 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Ca
             builder.show();
         }
 
-
-//        private void setRandomBackgroundColor() {
-//            TypedArray typedArray = itemView.getResources().obtainTypedArray(R.array.android_colors);
-//            int randomColor = typedArray.getColor(new Random().nextInt(typedArray.length()), 0);
-//            typedArray.recycle();
-//            cardView.setCardBackgroundColor(randomColor);
-//        }
-
         private void saveFolderIdToSharedPreferences(Context context, int folderId, String folderName) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences("FolderPreferences", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = context.getSharedPreferences(
+                    context.getString(R.string.folder_preferences), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("currentFolderId", folderId);
-            editor.putString("currentFolderName", folderName);
+            editor.putInt(context.getString(R.string.current_folder_id), folderId);
+            editor.putString(context.getString(R.string.current_folder_name), folderName);
             editor.apply();
         }
     }

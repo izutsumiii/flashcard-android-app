@@ -10,12 +10,11 @@ import com.example.flashcard.modal.FolderModal;
 import com.example.flashcard.modal.WordModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "flashcard";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2; // ✅ Bumped version
 
     private static final String FOLDERS_TABLE_NAME = "folders";
     private static final String WORDS_TABLE_NAME = "words";
@@ -24,6 +23,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String FOLDER_NAME_COL = "folder_name";
     private static final String WORD_COL = "word";
     private static final String DESCRIPTION_COL = "description";
+    private static final String IMAGE_URI_COL = "image_uri"; // ✅ New column
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -47,9 +47,17 @@ public class DBHandler extends SQLiteOpenHelper {
                 ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 WORD_COL + " TEXT," +
                 DESCRIPTION_COL + " TEXT," +
+                IMAGE_URI_COL + " TEXT," +
                 FOLDER_ID_COL + " INTEGER," +
                 "FOREIGN KEY(" + FOLDER_ID_COL + ") REFERENCES " + FOLDERS_TABLE_NAME + "(" + FOLDER_ID_COL + "))";
         db.execSQL(wordsQuery);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + WORDS_TABLE_NAME + " ADD COLUMN " + IMAGE_URI_COL + " TEXT");
+        }
     }
 
     public void addFolder(String folderName) {
@@ -62,7 +70,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public ArrayList<FolderModal> getFolderNames() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(" SELECT * FROM " + FOLDERS_TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + FOLDERS_TABLE_NAME, null);
 
         ArrayList<FolderModal> folderArrayList = new ArrayList<>();
         if (cursor.moveToFirst()) {
@@ -83,7 +91,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ArrayList<WordModel> wordList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] projection = {ID_COL, WORD_COL, DESCRIPTION_COL};
+        String[] projection = {ID_COL, WORD_COL, DESCRIPTION_COL, IMAGE_URI_COL};
         String selection = FOLDER_ID_COL + " = ?";
         String[] selectionArgs = {String.valueOf(folderId)};
 
@@ -94,7 +102,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 int wordId = cursor.getInt(cursor.getColumnIndexOrThrow(ID_COL));
                 String word = cursor.getString(cursor.getColumnIndexOrThrow(WORD_COL));
                 String description = cursor.getString(cursor.getColumnIndexOrThrow(DESCRIPTION_COL));
-                wordList.add(new WordModel(folderId, wordId, word, description));
+                String imageUri = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_URI_COL));
+                wordList.add(new WordModel(folderId, wordId, word, description, imageUri));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -103,14 +112,20 @@ public class DBHandler extends SQLiteOpenHelper {
         return wordList;
     }
 
-    public void addWord(int folderId, String word, String description) {
+    public void addWord(int folderId, String word, String description, String imageUri) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(FOLDER_ID_COL, folderId);
         cv.put(WORD_COL, word);
         cv.put(DESCRIPTION_COL, description);
+        cv.put(IMAGE_URI_COL, imageUri);
         db.insert(WORDS_TABLE_NAME, null, cv);
         db.close();
+    }
+
+    // Backup method for compatibility
+    public void addWord(int folderId, String word, String description) {
+        addWord(folderId, word, description, "");
     }
 
     public int getTotalWordsInAFolder(int folderId) {
@@ -143,13 +158,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(FOLDERS_TABLE_NAME, FOLDER_ID_COL + "=?", new String[]{String.valueOf(folderId)});
         db.close();
     }
+
     private void deleteWordsInFolder(SQLiteDatabase db, int folderId) {
         db.delete(WORDS_TABLE_NAME, FOLDER_ID_COL + "=?", new String[]{String.valueOf(folderId)});
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + WORDS_TABLE_NAME);
-        onCreate(db);
     }
 }

@@ -1,12 +1,16 @@
 package com.example.flashcard.ui.wordlist;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.flashcard.R;
 import com.example.flashcard.modal.WordModel;
 
@@ -41,15 +45,27 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.ItemVi
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitle;
+        TextView textTitle, textMeaning;
+        ImageView imageView;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTitle);
+            imageView = itemView.findViewById(R.id.imageView);
+            textMeaning = itemView.findViewById(R.id.textMeaning);
         }
 
         public void bind(WordModel item) {
             textTitle.setText(item.getWord());
+            textMeaning.setText(item.getMeaning());
+
+            String imageUri = item.getImageUri();
+            if (imageUri != null && !imageUri.isEmpty()) {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setImageURI(Uri.parse(imageUri));
+            } else {
+                imageView.setVisibility(View.GONE);
+            }
         }
     }
 }

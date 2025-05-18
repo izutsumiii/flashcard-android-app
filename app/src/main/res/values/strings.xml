@@ -13,5 +13,5 @@
     <string name="folder_preferences">FolderPreferences</string>
     <string name="current_folder_name">currentFolderName</string>
     <string name="current_folder_id">currentFolderId</string>
-    <string name="app_description">Visit https://github.com/shrestharosy/Flashcard for support</string>
+<!--    <string name="app_description">Visit https://github.com/shrestharosy/Flashcard for support</string>-->
 </resources>

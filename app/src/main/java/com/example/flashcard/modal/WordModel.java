@@ -6,14 +6,15 @@ public class WordModel {
     private int wordId;
     private String word;
     private String meaning;
+    private String imageUri; // 🆕 Add image URI field
 
-
-
-    public WordModel(int folderId, int wordId, String word, String meaning) {
+    // 🆕 Updated constructor with imageUri
+    public WordModel(int folderId, int wordId, String word, String meaning, String imageUri) {
         this.folderId = folderId;
         this.wordId = wordId;
         this.word = word;
         this.meaning = meaning;
+        this.imageUri = imageUri;
     }
 
     public String getWord() {
@@ -24,4 +25,7 @@ public class WordModel {
         return meaning;
     }
 
+    public String getImageUri() {
+        return imageUri;
+    }
 }

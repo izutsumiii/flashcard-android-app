@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
+import android.widget.ImageView;
+
 
 import com.example.flashcard.R;
 import com.example.flashcard.db.DBHandler;
@@ -120,6 +123,16 @@ public class CardFlip extends AppCompatActivity {
         cardTextFront.setText(wordModelArrayList.get(currentWordIndex).getWord());
         cardTextBack.setText(wordModelArrayList.get(currentWordIndex).getMeaning());
         showWordIndex();
+
+        ImageView cardImageFront = findViewById(R.id.imageView); // match this to your actual ImageView id
+        String imageUri = wordModelArrayList.get(currentWordIndex).getImageUri();
+        if (imageUri != null && !imageUri.isEmpty()) {
+            cardImageFront.setImageURI(Uri.parse(imageUri));
+            cardImageFront.setVisibility(View.VISIBLE);
+        } else {
+            cardImageFront.setVisibility(View.GONE);
+        }
+
     }
 
     private void showWordIndex() {

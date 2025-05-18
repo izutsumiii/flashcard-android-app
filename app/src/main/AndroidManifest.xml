@@ -32,7 +32,7 @@
             android:parentActivityName=".ui.wordlist.WordList" />
         <activity
             android:name=".ui.wordlist.WordList"
-            android:exported="false"
+            android:exported="true"
             android:parentActivityName=".ui.folders.FolderListActivity" />
         <activity
             android:name=".ui.form.FolderFormActivity"
@@ -40,7 +40,7 @@
             android:parentActivityName=".ui.folders.FolderListActivity" />
         <activity
             android:name=".ui.form.WordFormActivity"
-            android:exported="false"
+            android:exported="true"
             android:parentActivityName=".ui.wordlist.WordList" />
         <activity
             android:name=".MainActivity"

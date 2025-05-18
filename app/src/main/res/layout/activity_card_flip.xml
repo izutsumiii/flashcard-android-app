@@ -6,50 +6,7 @@
     android:onClick="flipCard"
     tools:context=".ui.card.CardFlip">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnIncorrect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/incorrect"
-            android:text="✖️" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/wordIndex"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:textSize="20sp" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btnCorrect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/correct"
-            android:text="✔️" />
-
-    </LinearLayout>
-
+    <!-- Card Back Layout -->
     <FrameLayout
         android:id="@+id/card_back"
         android:layout_width="match_parent"
@@ -58,6 +15,7 @@
         <include layout="@layout/card_back" />
     </FrameLayout>
 
+    <!-- Card Front Layout -->
     <FrameLayout
         android:id="@+id/card_front"
         android:layout_width="match_parent"
@@ -66,4 +24,40 @@
 
         <include layout="@layout/card_front" />
     </FrameLayout>
+
+    <!-- Bottom Button Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="#AA000000"
+        android:padding="12dp">
+
+        <Button
+            android:id="@+id/btnIncorrect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/incorrect"
+            android:text="✖️" />
+
+        <TextView
+            android:id="@+id/wordIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnCorrect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/correct"
+            android:text="✔️" />
+    </LinearLayout>
 </FrameLayout>

@@ -17,8 +17,8 @@ public class AboutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("About");
 
-        TextView about = findViewById(R.id.textViewDescription);
-        String htmlDescription = getString(R.string.app_description);
-        about.setText(Html.fromHtml(htmlDescription));
+//        TextView about = findViewById(R.id.textViewDescription);
+//        String htmlDescription = getString(R.string.app_description);
+//        about.setText(Html.fromHtml(htmlDescription));
     }
 }
